@@ -2,12 +2,13 @@
 import { useState } from "react";
 import Anuncio from "./Anuncio";
 import CadastroAnuncio from "./CadastroAnuncio";
+import "./styles.css";
 
 function Feed() {
   const [anuncios, setAnuncios] = useState([]);
   const [filtro, setFiltro] = useState("");
   const [anunciosExibidos, setAnunciosExibidos] = useState(anuncios);
-  const [modalIsOpen, setModalIsOpen] = useState(false); // Estado para controlar a abertura do modal
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const adicionarAnuncio = (novoAnuncio) => {
     setAnuncios([...anuncios, novoAnuncio]);
@@ -28,7 +29,10 @@ function Feed() {
 
   return (
     <div>
-      <button onClick={() => setModalIsOpen(true)}>Cadastrar Anúncio</button>
+      <h1 className="feed-header">Feed de Anúncios</h1>
+      <button onClick={() => setModalIsOpen(true)} className="feed-button">
+        Cadastrar Anúncio
+      </button>
       {modalIsOpen && (
         <CadastroAnuncio
           onAdicionarAnuncio={adicionarAnuncio}
@@ -36,14 +40,17 @@ function Feed() {
         />
       )}
 
-      <div>
+      <div className="feed-search">
         <input
           type="text"
           placeholder="Buscar em todos os campos"
           value={filtro}
           onChange={(e) => setFiltro(e.target.value)}
+          className="feed-input"
         />
-        <button onClick={filtrarAnuncios}>Filtrar</button>
+        <button onClick={filtrarAnuncios} className="feed-filter-button">
+          Filtrar
+        </button>
       </div>
       {anunciosExibidos.map((anuncio, index) => (
         <Anuncio key={index} anuncio={anuncio} />

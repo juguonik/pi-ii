@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
+import "./styles.css";
 
 const customModalStyles = {
   content: {
@@ -17,13 +18,18 @@ function CadastroAnuncio({ onAdicionarAnuncio, closeModal }) {
   const [localizacao, setLocalizacao] = useState("");
   const [imagem, setImagem] = useState(null);
 
+  const handleImagemChange = (e) => {
+    const selectedImage = e.target.files[0];
+    setImagem(selectedImage);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const novoAnuncio = {
       titulo,
       descricao,
       localizacao,
-      imagemUrl: URL.createObjectURL(imagem),
+      imagemMiniatura: URL.createObjectURL(imagem),
     };
     onAdicionarAnuncio(novoAnuncio);
     closeModal();
@@ -35,37 +41,54 @@ function CadastroAnuncio({ onAdicionarAnuncio, closeModal }) {
 
   return (
     <Modal isOpen={true} onRequestClose={closeModal} style={customModalStyles}>
-      <h2>Cadastro de Anúncio</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Título:</label>
-        <input
-          type="text"
-          value={titulo}
-          onChange={(e) => setTitulo(e.target.value)}
-        />
+      <div className="modal-content">
+        <h2 className="modal-title">Cadastro de Anúncio</h2>
+        <form onSubmit={handleSubmit}>
+          <label className="modal-label">Título:</label>
+          <input
+            type="text"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            className="modal-input"
+          />
 
-        <label>Descrição:</label>
-        <textarea
-          value={descricao}
-          onChange={(e) => setDescricao(e.target.value)}
-        />
+          <label className="modal-label">Descrição:</label>
+          <textarea
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+            className="modal-input"
+          />
 
-        <label>Localização:</label>
-        <input
-          type="text"
-          value={localizacao}
-          onChange={(e) => setLocalizacao(e.target.value)}
-        />
+          <label className="modal-label">Localização:</label>
+          <input
+            type="text"
+            value={localizacao}
+            onChange={(e) => setLocalizacao(e.target.value)}
+            className="modal-input"
+          />
 
-        <label>Imagem:</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImagem(e.target.files[0])}
-        />
+          <label className="modal-label">Imagem:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImagemChange}
+            className="modal-input"
+          />
 
-        <button type="submit">Salvar</button>
-      </form>
+          {imagem && (
+            <img
+              src={URL.createObjectURL(imagem)}
+              alt="Imagem do Anúncio"
+              className="modal-img"
+              style={{ maxWidth: "100px", maxHeight: "100px" }}
+            />
+          )}
+
+          <button type="submit" className="modal-button">
+            Salvar
+          </button>
+        </form>
+      </div>
     </Modal>
   );
 }

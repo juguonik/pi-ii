@@ -1,14 +1,42 @@
+import { useState } from "react";
+import FormularioInteresse from "./FormularioInteresse";
+import "./styles.css";
+
 function Anuncio({ anuncio }) {
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+
   const handleInteresseClick = () => {
-    // inserir lógica para o botão "Tenho interesse"
+    setMostrarFormulario(true);
+  };
+
+  const handleFormSubmit = (interesse) => {
+    console.log("Interesse enviado:", interesse);
+    setMostrarFormulario(false);
   };
 
   return (
-    <div>
-      <h2>{anuncio.titulo}</h2>
-      <p>Localização: {anuncio.localizacao}</p>
-      <p>Descrição: {anuncio.descricao}</p>
-      <button onClick={handleInteresseClick}>Tenho Interesse</button>
+    <div className="anuncio-container">
+      <h2 className="anuncio-title">{anuncio.titulo}</h2>
+      {anuncio.imagemMiniatura && (
+        <img
+          src={anuncio.imagemMiniatura}
+          alt="Miniatura da Imagem"
+          className="anuncio-img"
+          style={{ maxWidth: "100px", maxHeight: "100px" }}
+        />
+      )}
+      <p className="anuncio-description">Descrição: {anuncio.descricao}</p>
+      <p className="anuncio-location">Localização: {anuncio.localizacao}</p>
+      {mostrarFormulario ? (
+        <FormularioInteresse
+          onSubmeter={handleFormSubmit}
+          onClose={() => setMostrarFormulario(false)}
+        />
+      ) : (
+        <button onClick={handleInteresseClick} className="anuncio-button">
+          Tenho Interesse
+        </button>
+      )}
     </div>
   );
 }
