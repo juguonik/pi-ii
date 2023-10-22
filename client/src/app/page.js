@@ -1,10 +1,10 @@
-import Feed from "../components/Feed";
+import Home from "../components/Home";
 
 export default function App() {
   return (
     <div>
       <h1>Anúncios</h1>
-      <Feed />
+      <Home />
     </div>
   );
 }
