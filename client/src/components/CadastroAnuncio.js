@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import Modal from "react-modal";
 import "./styles.css";
@@ -12,7 +13,7 @@ const customModalStyles = {
   },
 };
 
-function CadastroAnuncio({ onAdicionarAnuncio, closeModal }) {
+function CadastroAnuncio({ closeModal }) {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [localizacao, setLocalizacao] = useState("");
@@ -23,20 +24,31 @@ function CadastroAnuncio({ onAdicionarAnuncio, closeModal }) {
     setImagem(selectedImage);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const novoAnuncio = {
-      titulo,
-      descricao,
-      localizacao,
-      imagemMiniatura: URL.createObjectURL(imagem),
-    };
-    onAdicionarAnuncio(novoAnuncio);
-    closeModal();
-    setTitulo("");
-    setDescricao("");
-    setLocalizacao("");
-    setImagem(null);
+
+    const formData = new FormData();
+    formData.append("titulo", titulo);
+    formData.append("descricao", descricao);
+    formData.append("localizacao", localizacao);
+    formData.append("imagem", imagem);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/anuncios",
+        formData
+      );
+      if (response.status === 201) {
+        // O anúncio foi criado com sucesso
+        closeModal();
+        setTitulo("");
+        setDescricao("");
+        setLocalizacao("");
+        setImagem(null);
+      }
+    } catch (error) {
+      console.error("Erro ao adicionar o anúncio:", error);
+    }
   };
 
   return (

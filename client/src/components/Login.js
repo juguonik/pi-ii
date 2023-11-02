@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import "./styles.css";
 
@@ -6,7 +7,19 @@ function Login({ onLogin, onSwitchToRegister }) {
   const [senha, setSenha] = useState("");
 
   const handleLogin = () => {
-    onLogin();
+    const loginData = {
+      nomeUsuario: nomeUsuario,
+      senha: senha,
+    };
+
+    axios
+      .post("http://localhost:3001/api/login", loginData)
+      .then((response) => {
+        onLogin();
+      })
+      .catch((error) => {
+        console.error("Erro no login:", error);
+      });
   };
 
   return (

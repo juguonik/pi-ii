@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import "./styles.css";
 
@@ -8,7 +9,22 @@ function Registro({ onRegister, onSwitchToLogin }) {
   const [senha, setSenha] = useState("");
 
   const handleRegistro = () => {
-    onRegister();
+    const registroData = {
+      nome: nome,
+      email: email,
+      nomeUsuario: nomeUsuario,
+      senha: senha,
+    };
+
+    axios
+      .post("http://localhost:3001/api/registro", registroData)
+      .then((response) => {
+        alert("Registro bem-sucedido");
+        onRegister();
+      })
+      .catch((error) => {
+        console.error("Erro no registro:", error);
+      });
   };
 
   return (

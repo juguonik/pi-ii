@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Anuncio from "./Anuncio";
 import CadastroAnuncio from "./CadastroAnuncio";
+import Mensagens from "./Mensagens";
 import "./styles.css";
 
 function Feed() {
@@ -29,7 +30,7 @@ function Feed() {
 
   return (
     <div>
-      <h1 className="feed-header">Feed de Anúncios</h1>
+      <h1 className="feed-header">Anúncios</h1>
       <button onClick={() => setModalIsOpen(true)} className="feed-button">
         Cadastrar Anúncio
       </button>
@@ -39,6 +40,7 @@ function Feed() {
           closeModal={() => setModalIsOpen(false)}
         />
       )}
+      <Mensagens />
 
       <div className="feed-search">
         <input

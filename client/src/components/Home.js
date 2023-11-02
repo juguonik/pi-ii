@@ -22,7 +22,9 @@ function Home() {
         </div>
       ) : (
         <div>
-          <h1 className="feed-header">Bem-vindo à Área do Feed</h1>
+          <h1 className="feed-header">
+            Sistema para troca de jogos / brinquedos
+          </h1>
           <Feed />
         </div>
       )}
